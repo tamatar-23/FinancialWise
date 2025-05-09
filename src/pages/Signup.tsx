@@ -13,7 +13,7 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { signUp } = useAuth();
+  const { signUp, enableGuestMode } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -34,6 +34,11 @@ const Signup = () => {
     } finally {
       setLoading(false);
     }
+  };
+  
+  const handleGuestMode = () => {
+    enableGuestMode();
+    navigate('/dashboard');
   };
 
   return (
@@ -84,6 +89,14 @@ const Signup = () => {
           <CardFooter className="flex-col space-y-4">
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? 'Creating account...' : 'Sign up'}
+            </Button>
+            <Button 
+              type="button" 
+              variant="outline" 
+              className="w-full" 
+              onClick={handleGuestMode}
+            >
+              Continue as Guest
             </Button>
             <div className="text-center text-sm">
               Already have an account?{" "}

@@ -12,7 +12,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { signIn } = useAuth();
+  const { signIn, enableGuestMode } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -27,6 +27,11 @@ const Login = () => {
     } finally {
       setLoading(false);
     }
+  };
+  
+  const handleGuestMode = () => {
+    enableGuestMode();
+    navigate('/dashboard');
   };
 
   return (
@@ -69,6 +74,14 @@ const Login = () => {
           <CardFooter className="flex-col space-y-4">
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? 'Signing in...' : 'Sign in'}
+            </Button>
+            <Button 
+              type="button" 
+              variant="outline" 
+              className="w-full" 
+              onClick={handleGuestMode}
+            >
+              Continue as Guest
             </Button>
             <div className="text-center text-sm">
               Don't have an account?{" "}

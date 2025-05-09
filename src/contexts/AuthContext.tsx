@@ -12,8 +12,10 @@ import { toast } from "sonner";
 interface AuthContextType {
   currentUser: User | null;
   loading: boolean;
+  isGuestMode: boolean;
   signUp: (email: string, password: string) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
+  enableGuestMode: () => void;
   logout: () => Promise<void>;
 }
 
@@ -30,6 +32,7 @@ export function useAuth() {
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isGuestMode, setIsGuestMode] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -43,6 +46,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signUp = async (email: string, password: string) => {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
+      setIsGuestMode(false);
       toast.success("Account created successfully");
     } catch (error) {
       console.error("Error signing up:", error);
@@ -54,6 +58,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signIn = async (email: string, password: string) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      setIsGuestMode(false);
       toast.success("Signed in successfully");
     } catch (error) {
       console.error("Error signing in:", error);
@@ -61,11 +66,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       throw error;
     }
   };
+  
+  const enableGuestMode = () => {
+    setIsGuestMode(true);
+    toast.success("Guest mode enabled. Your data won't be saved.");
+  };
 
   const logout = async () => {
     try {
-      await signOut(auth);
-      toast.success("Signed out successfully");
+      if (currentUser) {
+        await signOut(auth);
+        toast.success("Signed out successfully");
+      }
+      // Reset guest mode as well when logging out
+      setIsGuestMode(false);
     } catch (error) {
       console.error("Error signing out:", error);
       toast.error("Failed to sign out. Please try again.");
@@ -76,8 +90,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const value = {
     currentUser,
     loading,
+    isGuestMode,
     signUp,
     signIn,
+    enableGuestMode,
     logout
   };
 

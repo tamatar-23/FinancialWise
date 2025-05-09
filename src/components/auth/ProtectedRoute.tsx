@@ -8,7 +8,7 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const { currentUser, loading } = useAuth();
+  const { currentUser, loading, isGuestMode } = useAuth();
   const location = useLocation();
 
   if (loading) {
@@ -21,8 +21,8 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     );
   }
 
-  if (!currentUser) {
-    // Redirect to login if not authenticated
+  if (!currentUser && !isGuestMode) {
+    // Redirect to login if not authenticated and not in guest mode
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 

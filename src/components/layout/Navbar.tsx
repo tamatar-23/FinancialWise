@@ -7,7 +7,7 @@ import { Menu, X, User } from 'lucide-react';
 import { toast } from 'sonner';
 
 const Navbar = () => {
-  const { currentUser, logout } = useAuth();
+  const { currentUser, isGuestMode, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = async () => {
@@ -18,6 +18,9 @@ const Navbar = () => {
       console.error('Failed to log out', error);
     }
   };
+  
+  // User is either logged in or in guest mode
+  const isAuthenticated = currentUser || isGuestMode;
 
   return (
     <nav className="bg-background border-b border-muted py-3 px-4 sticky top-0 z-30">
@@ -29,14 +32,20 @@ const Navbar = () => {
 
         {/* Desktop menu */}
         <div className="hidden md:flex items-center gap-6">
-          {currentUser ? (
+          {isAuthenticated ? (
             <>
               <Link to="/dashboard" className="text-foreground hover:text-primary transition-colors">Dashboard</Link>
               <Link to="/budget" className="text-foreground hover:text-primary transition-colors">Budget</Link>
               <Link to="/investment" className="text-foreground hover:text-primary transition-colors">Investment</Link>
               <Link to="/chat" className="text-foreground hover:text-primary transition-colors">Chat</Link>
               <Link to="/profile" className="text-foreground hover:text-primary transition-colors">Profile</Link>
-              <Button variant="ghost" onClick={handleLogout} className="text-foreground hover:text-primary">Logout</Button>
+              {isGuestMode ? (
+                <Link to="/login">
+                  <Button variant="outline" className="mr-2">Log In</Button>
+                </Link>
+              ) : (
+                <Button variant="ghost" onClick={handleLogout} className="text-foreground hover:text-primary">Logout</Button>
+              )}
             </>
           ) : (
             <>
@@ -63,14 +72,20 @@ const Navbar = () => {
       {/* Mobile menu */}
       {isMenuOpen && (
         <div className="md:hidden bg-background py-4 px-4 absolute top-full left-0 w-full shadow-md animate-slide-in">
-          {currentUser ? (
+          {isAuthenticated ? (
             <>
               <Link to="/dashboard" className="block py-2 text-foreground hover:text-primary" onClick={() => setIsMenuOpen(false)}>Dashboard</Link>
               <Link to="/budget" className="block py-2 text-foreground hover:text-primary" onClick={() => setIsMenuOpen(false)}>Budget</Link>
               <Link to="/investment" className="block py-2 text-foreground hover:text-primary" onClick={() => setIsMenuOpen(false)}>Investment</Link>
               <Link to="/chat" className="block py-2 text-foreground hover:text-primary" onClick={() => setIsMenuOpen(false)}>Chat</Link>
               <Link to="/profile" className="block py-2 text-foreground hover:text-primary" onClick={() => setIsMenuOpen(false)}>Profile</Link>
-              <Button variant="ghost" onClick={() => { handleLogout(); setIsMenuOpen(false); }} className="w-full justify-start py-2 text-foreground hover:text-primary">Logout</Button>
+              {isGuestMode ? (
+                <Link to="/login" onClick={() => setIsMenuOpen(false)}>
+                  <Button variant="outline" className="w-full mt-2">Log In</Button>
+                </Link>
+              ) : (
+                <Button variant="ghost" onClick={() => { handleLogout(); setIsMenuOpen(false); }} className="w-full justify-start py-2 text-foreground hover:text-primary">Logout</Button>
+              )}
             </>
           ) : (
             <>
