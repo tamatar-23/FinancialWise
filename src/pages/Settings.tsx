@@ -2,8 +2,6 @@
 import { useAuth } from '../contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import ApiKeySetup from '@/components/settings/ApiKeySetup';
 
 const Settings = () => {
   const { currentUser, logout } = useAuth();
@@ -32,16 +30,6 @@ const Settings = () => {
                 </div>
               </div>
             )}
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader>
-            <CardTitle>API Configuration</CardTitle>
-            <CardDescription>Manage your API keys for the application</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ApiKeySetup />
           </CardContent>
         </Card>
         

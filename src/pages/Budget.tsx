@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useOpenAI } from '../contexts/OpenAIContext';
@@ -27,7 +26,7 @@ const Budget = () => {
     e.preventDefault();
     
     if (!isKeySet) {
-      toast.error("Please set your OpenAI API key first");
+      toast.error("OpenAI API key not configured. Please contact the administrator.");
       return;
     }
     
@@ -81,12 +80,6 @@ const Budget = () => {
   return (
     <div className="py-6">
       <h1 className="text-3xl font-bold mb-6">Budget Planning Tool</h1>
-      
-      {!isKeySet && (
-        <div className="mb-8">
-          <ApiKeySetup />
-        </div>
-      )}
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <Card>

@@ -1,9 +1,11 @@
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext } from 'react';
+
+// The API key will be hardcoded in the environment or set once by the application owner
+const OPENAI_API_KEY = ""; // This will be provided by the application owner
 
 interface OpenAIContextType {
   apiKey: string;
-  setApiKey: (key: string) => void;
   isKeySet: boolean;
 }
 
@@ -18,21 +20,11 @@ export function useOpenAI() {
 }
 
 export const OpenAIProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [apiKey, setApiKey] = useState<string>(() => {
-    // Try to get API key from localStorage
-    const savedKey = localStorage.getItem('openai_api_key');
-    return savedKey || '';
-  });
-
-  const handleSetApiKey = (key: string) => {
-    setApiKey(key);
-    // Save to localStorage
-    localStorage.setItem('openai_api_key', key);
-  };
+  // Fixed API key - application owner will set this value
+  const apiKey = OPENAI_API_KEY;
 
   const value = {
     apiKey,
-    setApiKey: handleSetApiKey,
     isKeySet: apiKey !== ''
   };
 

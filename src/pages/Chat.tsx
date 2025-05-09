@@ -6,8 +6,7 @@ import { callOpenAI } from '../services/openai';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Send, User } from 'lucide-react';
-import ApiKeySetup from '@/components/settings/ApiKeySetup';
+import { Send } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface Message {
@@ -42,7 +41,7 @@ const Chat = () => {
     e.preventDefault();
     
     if (!isKeySet) {
-      toast.error("Please set your OpenAI API key first");
+      toast.error("OpenAI API key not configured. Please contact the administrator.");
       return;
     }
     
@@ -83,12 +82,6 @@ const Chat = () => {
   return (
     <div className="py-6">
       <h1 className="text-3xl font-bold mb-6">Financial Literacy Chatbot</h1>
-      
-      {!isKeySet && (
-        <div className="mb-8">
-          <ApiKeySetup />
-        </div>
-      )}
       
       <Card className="w-full h-[calc(100vh-220px)] flex flex-col">
         <CardHeader>
