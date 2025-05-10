@@ -1,8 +1,8 @@
 
 import React, { createContext, useContext } from 'react';
 
-// The API key will be hardcoded in the environment or set once by the application owner
-const OPENAI_API_KEY = ""; // This will be provided by the application owner
+// The Gemini API key is hardcoded for all users
+const GEMINI_API_KEY = "AIzaSyDY3SKcBrmkUTi4jIQhZnG_NDU0dZWKpfM";
 
 interface OpenAIContextType {
   apiKey: string;
@@ -20,12 +20,12 @@ export function useOpenAI() {
 }
 
 export const OpenAIProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Fixed API key - application owner will set this value
-  const apiKey = OPENAI_API_KEY;
+  // Fixed Gemini API key for all users
+  const apiKey = GEMINI_API_KEY;
 
   const value = {
     apiKey,
-    isKeySet: apiKey !== ''
+    isKeySet: true // Always true since we're using a hardcoded API key
   };
 
   return <OpenAIContext.Provider value={value}>{children}</OpenAIContext.Provider>;

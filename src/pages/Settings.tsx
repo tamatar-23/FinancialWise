@@ -35,6 +35,28 @@ const Settings = () => {
         
         <Card>
           <CardHeader>
+            <CardTitle>AI Services</CardTitle>
+            <CardDescription>Information about AI services used</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div>
+                <p className="text-sm font-medium mb-1">AI Provider</p>
+                <p>Google Gemini AI</p>
+              </div>
+              <div>
+                <p className="text-sm font-medium mb-1">API Status</p>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                  <p>Active</p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
             <CardTitle>About</CardTitle>
             <CardDescription>Application information</CardDescription>
           </CardHeader>

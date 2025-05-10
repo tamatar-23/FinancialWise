@@ -1,38 +1,44 @@
 
 import { toast } from "sonner";
 
-// OpenAI API implementation
+// Gemini API implementation
 export const callOpenAI = async (
   prompt: string, 
   apiKey: string,
-  model: string = "gpt-4o-mini",
+  model: string = "gemini-pro",
   temperature: number = 0.7
 ): Promise<string> => {
   try {
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: model,
-        messages: [{ role: 'user', content: prompt }],
-        temperature: temperature,
+        contents: [{ role: 'user', parts: [{ text: prompt }] }],
+        generationConfig: {
+          temperature: temperature,
+        }
       })
     });
 
     if (!response.ok) {
       const error = await response.json();
-      throw new Error(error.error?.message || 'Failed to get response from OpenAI');
+      throw new Error(error.error?.message || 'Failed to get response from Gemini API');
     }
 
     const data = await response.json();
-    return data.choices[0].message.content;
+    
+    // Extract the text from the Gemini response format
+    if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts) {
+      return data.candidates[0].content.parts[0].text;
+    }
+    
+    throw new Error('Invalid response format from Gemini API');
   } catch (error) {
-    console.error('Error calling OpenAI:', error);
+    console.error('Error calling Gemini API:', error);
     toast.error("Failed to get AI response. Please try again.");
-    return "I'm having trouble processing your request right now. Please check your API key or try again later.";
+    return "I'm having trouble processing your request right now. Please try again later.";
   }
 };
 
