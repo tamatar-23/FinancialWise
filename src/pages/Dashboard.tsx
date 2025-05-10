@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useOpenAI } from '../contexts/OpenAIContext';
@@ -7,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
-import ApiKeySetup from '@/components/settings/ApiKeySetup';
 import { Calculator, ChartPie, MessageCircle } from 'lucide-react';
 
 const Dashboard = () => {
@@ -80,7 +78,14 @@ const Dashboard = () => {
       
       {!isKeySet && (
         <div className="mb-8">
-          <ApiKeySetup />
+          <Card>
+            <CardHeader>
+              <CardTitle>AI Service Unavailable</CardTitle>
+              <CardDescription>
+                The AI service is currently unavailable. Please try again later.
+              </CardDescription>
+            </CardHeader>
+          </Card>
         </div>
       )}
       

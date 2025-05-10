@@ -9,7 +9,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
-import ApiKeySetup from '@/components/settings/ApiKeySetup';
 import { toast } from 'sonner';
 
 const Budget = () => {
@@ -26,7 +25,7 @@ const Budget = () => {
     e.preventDefault();
     
     if (!isKeySet) {
-      toast.error("OpenAI API key not configured. Please contact the administrator.");
+      toast.error("AI service is currently unavailable");
       return;
     }
     

@@ -7,9 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import ApiKeySetup from '@/components/settings/ApiKeySetup';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
 
 const Investment = () => {
@@ -83,14 +82,14 @@ const Investment = () => {
   
   return (
     <div className="py-6">
-      <h1 className="text-3xl font-bold mb-6">Investment Strategy Generator</h1>
+      <h1 className="text-3xl font-bold mb-6">Investment Strategy Planner</h1>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <Card>
           <CardHeader>
-            <CardTitle>Create Investment Strategy</CardTitle>
+            <CardTitle>Create Your Investment Strategy</CardTitle>
             <CardDescription>
-              Enter your financial details to generate a personalized investment plan
+              Plan your investments based on your financial goals and risk tolerance
             </CardDescription>
           </CardHeader>
           <CardContent>
